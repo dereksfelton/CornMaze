@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc04d2a3eb9d8042b8497b1f863230c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapFile: Maze3
+  MapFileName: Maze5
   HorizScale: 2
   VertScale: 2
   ShowWalls: 1

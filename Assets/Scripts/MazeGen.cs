@@ -1,50 +1,52 @@
 using Assets.Scripts;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MazeGen : MonoBehaviour
 {
-   public string MapFile;
+   public string MapFileName;
    public float HorizScale = 1f;
    public float VertScale = 1f;
    public bool ShowWalls = true;
+   public Material WallMaterial = null;
 
    private char[,] grid = null;
    private List<Wall> walls;
 
    private static char WALL_CHAR = '#';
+   private static char vSep = Path.VolumeSeparatorChar;
+   private static char dSep = Path.DirectorySeparatorChar;
+   private static DirectoryInfo mapsDir = new DirectoryInfo($"Assets{dSep}Mazes");
+
+   private string mapFilePath = string.Empty;
+   private string mapFileBitmapPath = string.Empty;
 
    // Start is called before the first frame update
    void Start()
    {
+      mapFilePath = $"{mapsDir.FullName}{dSep}{MapFileName}.txt";
+      mapFileBitmapPath = $"{mapsDir.FullName}{dSep}{MapFileName}.bmp";
+
       LoadGrid();
       IdentifyWalls();
       GenerateWalls();
+      PlaceGrass();
+   }
+
+   private void ReadBitmap() 
+   {
+      byte[] mapByteAry = File.ReadAllBytes(mapFileBitmapPath);
+
    }
 
    private void LoadGrid()
    {
-      DirectoryInfo mapsDir;
-      char vSep = Path.VolumeSeparatorChar;
-      char dSep = Path.DirectorySeparatorChar;
-
-      //string fileName = "Maze2_13x17_Braid_Rooms.txt";
-      string filePath = string.Empty;
-
-      // bind to an existing directory 
-      mapsDir = new DirectoryInfo($"Assets{dSep}Mazes");
-      Debug.Log(mapsDir);
-
-      // specify a file in that path
-      filePath = $"{mapsDir.FullName}{dSep}{MapFile}.txt";
-
       // read a text file using StreamReader
-      Console.WriteLine($"Opening and reading {filePath}...");
-      Console.WriteLine();
-
-      using (StreamReader reader = new StreamReader(filePath))
+      using (StreamReader reader = new StreamReader(mapFilePath))
       {
          // read entire contents of file, trim any white psace at the end
          string contents = reader.ReadToEnd().TrimEnd();
@@ -95,7 +97,8 @@ public class MazeGen : MonoBehaviour
             if (char.Equals(grid[rowIndex, colIndex], WALL_CHAR))
             {
                Vector2 loc = new Vector2(rowIndex, colIndex) * HorizScale;
-               walls.Add(new Wall(loc, 1 * HorizScale, 1 * HorizScale));
+               Wall newWall = new Wall(loc, 1 * HorizScale, 1 * HorizScale);
+               walls.Add(newWall);
             }
          }
       }
@@ -104,12 +107,32 @@ public class MazeGen : MonoBehaviour
    private void GenerateWalls()
    {
       Debug.Log($"Wall count: {walls.Count}");
-      foreach(Wall wall in walls)
+
+      GameObject wallsGroup = new GameObject("MazeWalls");
+
+
+      // FOR REFERENCE: how to load a marerial from code
+      // Material wallMaterial = Resources.Load("Materials/BasicWalls", typeof(Material)) as Material;
+
+      foreach (Wall wall in walls)
       {
          GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-         cube.GetComponent<MeshRenderer>().enabled = ShowWalls;
-         cube.transform.position = new Vector3(wall.Location.x, 0.5f, wall.Location.y);
+         cube.transform.parent = wallsGroup.gameObject.transform;
+         MeshRenderer renderer = cube.GetComponent<MeshRenderer>();
+         renderer.enabled = ShowWalls;
+         if (ShowWalls)
+         {
+            renderer.material = WallMaterial;
+         }
+         cube.transform.position = new Vector3(wall.Location.x, 0.0f, wall.Location.y);
          cube.transform.localScale = new Vector3(wall.Width, 1f * VertScale, wall.Length);
       }
+   }
+
+   private void PlaceGrass()
+   {
+      Terrain terrainToPopulate = GetComponent<Terrain>();
+      //terrainToPopulate.terrainData.SetDetailResolution(grassDensity, patchDetail);
+      terrainToPopulate.terrainData.SetDetailResolution(1, 32);
    }
 }
