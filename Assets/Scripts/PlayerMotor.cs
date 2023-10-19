@@ -46,8 +46,6 @@ public class PlayerMotor : MonoBehaviour
       controller.Move(playerVelocity * Time.deltaTime);
 
       // control walking sound...............................................
-      Debug.Log($"mX: {moveDirection.x}\nmZ: {moveDirection.z}");
-
       // play walking sound if moving
       if (moveDirection.x != 0.0 || moveDirection.z != 0.0)
       {

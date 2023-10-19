@@ -411,6 +411,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da116ea97ff85dd4ba00a228cc7d0ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
+  cam: {fileID: 3445001510532796584}
   xSensitivity: 30
   ySensitivity: 30
