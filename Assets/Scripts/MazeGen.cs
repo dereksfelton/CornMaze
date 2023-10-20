@@ -108,31 +108,28 @@ public class MazeGen : MonoBehaviour
    {
       Debug.Log($"Wall count: {walls.Count}");
 
-      GameObject wallsGroup = new GameObject("MazeWalls");
-
-
       // FOR REFERENCE: how to load a marerial from code
       // Material wallMaterial = Resources.Load("Materials/BasicWalls", typeof(Material)) as Material;
 
       foreach (Wall wall in walls)
       {
          GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-         cube.transform.parent = wallsGroup.gameObject.transform;
+         cube.transform.parent = this.gameObject.transform;
          MeshRenderer renderer = cube.GetComponent<MeshRenderer>();
          renderer.enabled = ShowWalls;
          if (ShowWalls)
          {
             renderer.material = WallMaterial;
          }
-         cube.transform.position = new Vector3(wall.Location.x, 0.0f, wall.Location.y);
+         cube.transform.localPosition = new Vector3(wall.Location.x, 0.0f, wall.Location.y);
          cube.transform.localScale = new Vector3(wall.Width, 1f * VertScale, wall.Length);
       }
    }
 
    private void PlaceGrass()
    {
-      Terrain terrainToPopulate = GetComponent<Terrain>();
+      //Terrain terrainToPopulate = GetComponent<Terrain>();
       //terrainToPopulate.terrainData.SetDetailResolution(grassDensity, patchDetail);
-      terrainToPopulate.terrainData.SetDetailResolution(1, 32);
+      //terrainToPopulate.terrainData.SetDetailResolution(1, 32);
    }
 }
