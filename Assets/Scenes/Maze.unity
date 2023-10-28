@@ -372,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc04d2a3eb9d8042b8497b1f863230c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapFileName: Maze1_17x17_Braid_Rooms
+  MapFileName: Maze5_8x8_Braid_Rooms
   HorizScale: 1
   VertScale: 2
   ShowWalls: 1

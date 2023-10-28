@@ -137,7 +137,7 @@ public class MazeGen : MonoBehaviour
 
       foreach (Wall wall in walls)
       {
-         map[(int)wall.Location.x + offsetX, (int)wall.Location.y + offsetY] = 255;
+         map[(int)wall.Location.y + offsetY, (int)wall.Location.x + offsetX] = 255;
       }
 
       t.terrainData.SetDetailLayer(0, 0, 0, map);
