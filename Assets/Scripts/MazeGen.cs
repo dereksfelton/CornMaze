@@ -40,7 +40,6 @@ public class MazeGen : MonoBehaviour
    private void ReadBitmap() 
    {
       byte[] mapByteAry = File.ReadAllBytes(mapFileBitmapPath);
-
    }
 
    private void LoadGrid()
@@ -128,8 +127,19 @@ public class MazeGen : MonoBehaviour
 
    private void PlaceGrass()
    {
-      //Terrain terrainToPopulate = GetComponent<Terrain>();
-      //terrainToPopulate.terrainData.SetDetailResolution(grassDensity, patchDetail);
-      //terrainToPopulate.terrainData.SetDetailResolution(1, 32);
+      Terrain t = Terrain.activeTerrain;
+
+      // TODO: determine which index refers to the Cornstalk layer
+      var map = t.terrainData.GetDetailLayer(0, 0, t.terrainData.detailWidth, t.terrainData.detailHeight, 0);
+
+      int offsetX = 8;
+      int offsetY = 8;
+
+      foreach (Wall wall in walls)
+      {
+         map[(int)wall.Location.x + offsetX, (int)wall.Location.y + offsetY] = 255;
+      }
+
+      t.terrainData.SetDetailLayer(0, 0, 0, map);
    }
 }

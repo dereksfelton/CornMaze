@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 914521650}
   - component: {fileID: 914521649}
   - component: {fileID: 914521648}
-  - component: {fileID: 914521647}
+  - component: {fileID: 914521651}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -309,22 +309,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!114 &914521647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 914521646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbc04d2a3eb9d8042b8497b1f863230c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MapFileName: Maze5
-  HorizScale: 2
-  VertScale: 2
-  ShowWalls: 1
 --- !u!154 &914521648
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -399,6 +383,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &914521651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914521646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d6d9bb2b0dde5d4fa72536537b7d7de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1824317121
 PrefabInstance:
   m_ObjectHideFlags: 0

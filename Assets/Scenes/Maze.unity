@@ -262,10 +262,9 @@ GameObject:
   - component: {fileID: 727403511}
   - component: {fileID: 727403510}
   - component: {fileID: 727403509}
-  - component: {fileID: 727403512}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -344,18 +343,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &727403512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 727403508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d6d9bb2b0dde5d4fa72536537b7d7de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1078238158
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MapFileName: Maze1_17x17_Braid_Rooms
-  HorizScale: 1.75
+  HorizScale: 1
   VertScale: 2
   ShowWalls: 1
   WallMaterial: {fileID: 2100000, guid: e1a3512c4b37fc048b38920011da7b8f, type: 2}
