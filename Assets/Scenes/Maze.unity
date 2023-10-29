@@ -376,7 +376,7 @@ MonoBehaviour:
   positionOffsetX: 1.5
   positionOffsetY: 1.5
   VertScale: 2
-  ShowWalls: 1
+  ShowWalls: 0
   WallMaterial: {fileID: 2100000, guid: e1a3512c4b37fc048b38920011da7b8f, type: 2}
 --- !u!4 &1078238160
 Transform:
