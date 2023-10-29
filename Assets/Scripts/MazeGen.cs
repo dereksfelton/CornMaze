@@ -1,18 +1,23 @@
 using Assets.Scripts;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MazeGen : MonoBehaviour
 {
    public string MapFileName;
-   public float HorizScale = 1f;
+   public float positionOffsetX = 1.5f;
+   public float positionOffsetY = 1.5f;
    public float VertScale = 1f;
    public bool ShowWalls = true;
    public Material WallMaterial = null;
+
+   // where to start the maze relative to the detail grid
+   private int detailGridOffsetX = 8;
+   private int detailGridOffsetY = 8;
+   private int detailWidth, detailHeight;
+   private float terrainWidth, terrainHeight;
 
    private char[,] grid = null;
    private List<Wall> walls;
@@ -25,16 +30,39 @@ public class MazeGen : MonoBehaviour
    private string mapFilePath = string.Empty;
    private string mapFileBitmapPath = string.Empty;
 
+   private Terrain terrain = null;
+
    // Start is called before the first frame update
    void Start()
    {
+      // set terrain to active terrain
+      terrain = Terrain.activeTerrain;
+
+      // read dimensions of detail grid
+      detailWidth = terrain.terrainData.detailWidth;
+      detailHeight = terrain.terrainData.detailHeight;
+
+      terrainWidth = terrain.terrainData.size.x;
+      terrainHeight = terrain.terrainData.size.z;
+
+      float detailBoxWidth = terrainWidth / detailWidth;
+      float detailBoxHeight = terrainHeight / detailHeight;
+
+      // place maze based on detail grid dimensions and offsets
+      Vector3 pos = new Vector3(
+         detailGridOffsetX * detailBoxWidth + positionOffsetX,
+         0f,
+         detailGridOffsetY * detailBoxHeight + positionOffsetY);
+      transform.SetPositionAndRotation(pos, Quaternion.identity);
+      transform.localScale = new Vector3(detailBoxWidth, 1f, detailBoxHeight);
+
       mapFilePath = $"{mapsDir.FullName}{dSep}{MapFileName}.txt";
       mapFileBitmapPath = $"{mapsDir.FullName}{dSep}{MapFileName}.bmp";
 
       LoadGrid();
       IdentifyWalls();
       GenerateWalls();
-      PlaceGrass();
+      PlaceCornstalks();
    }
 
    private void ReadBitmap() 
@@ -95,8 +123,8 @@ public class MazeGen : MonoBehaviour
          {
             if (char.Equals(grid[rowIndex, colIndex], WALL_CHAR))
             {
-               Vector2 loc = new Vector2(rowIndex, colIndex) * HorizScale;
-               Wall newWall = new Wall(loc, 1 * HorizScale, 1 * HorizScale);
+               Vector2 loc = new Vector2(rowIndex, colIndex);
+               Wall newWall = new Wall(loc, 1, 1);
                walls.Add(newWall);
             }
          }
@@ -125,21 +153,25 @@ public class MazeGen : MonoBehaviour
       }
    }
 
-   private void PlaceGrass()
+   private void PlaceCornstalks()
    {
-      Terrain t = Terrain.activeTerrain;
-
       // TODO: determine which index refers to the Cornstalk layer
-      var map = t.terrainData.GetDetailLayer(0, 0, t.terrainData.detailWidth, t.terrainData.detailHeight, 0);
+      var map = terrain.terrainData.GetDetailLayer(0, 0, detailWidth, detailHeight, 0);
 
-      int offsetX = 8;
-      int offsetY = 8;
+      // clear existing detailLayer
+      for (int x=0; x < detailWidth; x++)
+      {
+         for (int y=0; y < detailHeight; y++) 
+         {
+            map[x, y] = 0;
+         }
+      }
 
       foreach (Wall wall in walls)
       {
-         map[(int)wall.Location.y + offsetY, (int)wall.Location.x + offsetX] = 255;
+         map[(int)wall.Location.y + detailGridOffsetY, (int)wall.Location.x + detailGridOffsetX] = 255;
       }
 
-      t.terrainData.SetDetailLayer(0, 0, 0, map);
+      terrain.terrainData.SetDetailLayer(0, 0, 0, map);
    }
 }

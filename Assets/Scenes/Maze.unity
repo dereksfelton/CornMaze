@@ -373,7 +373,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MapFileName: Maze5_8x8_Braid_Rooms
-  HorizScale: 1
+  positionOffsetX: 1.5
+  positionOffsetY: 1.5
   VertScale: 2
   ShowWalls: 1
   WallMaterial: {fileID: 2100000, guid: e1a3512c4b37fc048b38920011da7b8f, type: 2}
@@ -386,7 +387,7 @@ Transform:
   m_GameObject: {fileID: 1078238158}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.32, y: 0, z: 21}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -509,7 +510,7 @@ PrefabInstance:
     - target: {fileID: 2627463110985276512, guid: e29fde75dce4eda44ae33164668da236,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 31.360456
+      value: 49.49
       objectReference: {fileID: 0}
     - target: {fileID: 2627463110985276512, guid: e29fde75dce4eda44ae33164668da236,
         type: 3}
@@ -519,7 +520,7 @@ PrefabInstance:
     - target: {fileID: 2627463110985276512, guid: e29fde75dce4eda44ae33164668da236,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.039936
+      value: 19.14
       objectReference: {fileID: 0}
     - target: {fileID: 2627463110985276512, guid: e29fde75dce4eda44ae33164668da236,
         type: 3}
