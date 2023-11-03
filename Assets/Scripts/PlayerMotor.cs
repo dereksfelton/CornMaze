@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMotor : MonoBehaviour
 {
@@ -15,16 +17,23 @@ public class PlayerMotor : MonoBehaviour
    public float gravity = -9.8f;
    public float jumpHeight = 3f;
 
-   // Start is called before the first frame update
-   void Start()
+   void Awake()
    {
       controller = GetComponent<CharacterController>();
       audioSource = GetComponent<AudioSource>();
+
+      if (GameStateManager.Instance != null)
+      {
+         gameObject.GetComponent<CharacterController>().enabled = false;
+         transform.position = GameStateManager.Instance.PlayerPosition;
+         gameObject.GetComponent<CharacterController>().enabled = true;
+      }
    }
 
    // Update is called once per frame
    void Update()
    {
+      Debug.Log(transform.position);
       isGrounded = controller.isGrounded;
    }
 
