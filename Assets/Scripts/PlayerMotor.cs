@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class PlayerMotor : MonoBehaviour
 {
    private CharacterController controller;
    private AudioSource audioSource;
+   private AudioSource adHocAudioSource;
 
    private Vector3 playerVelocity;
    private bool isGrounded;
@@ -17,13 +19,19 @@ public class PlayerMotor : MonoBehaviour
    public float gravity = -9.8f;
    public float jumpHeight = 3f;
 
+   // NOTE: There is almost certainly a better way to specify/manage sounds!
+   public AudioClip pickupSound;
+
    void Awake()
    {
       controller = GetComponent<CharacterController>();
       audioSource = GetComponent<AudioSource>();
 
+      adHocAudioSource = transform.Find("AdHocAudio").GetComponent<AudioSource>();
+
       if (GameStateManager.Instance != null)
       {
+         // disable player controller before moving player, reenable it after
          gameObject.GetComponent<CharacterController>().enabled = false;
          transform.position = GameStateManager.Instance.PlayerPosition;
          gameObject.GetComponent<CharacterController>().enabled = true;
@@ -33,7 +41,6 @@ public class PlayerMotor : MonoBehaviour
    // Update is called once per frame
    void Update()
    {
-      Debug.Log(transform.position);
       isGrounded = controller.isGrounded;
    }
 
@@ -79,12 +86,26 @@ public class PlayerMotor : MonoBehaviour
       }
    }
 
-   // hanlde player jumps
+   // handle player jumps
    public void Jump()
    {
       if (isGrounded)
       {
          playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
+      }
+   }
+
+   // handle collisions
+   private void OnTriggerEnter(Collider other)
+   {
+      if (other.gameObject.CompareTag("Pickup"))
+      {
+         // do stuff on the player that would happen with a pickup
+         Debug.Log("Player says: I picked up " + other.gameObject.name);
+
+         other.gameObject.SetActive(false); // remove pickup from scene
+
+         adHocAudioSource.PlayOneShot(pickupSound);
       }
    }
 }
